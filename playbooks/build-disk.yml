@@ -16,7 +16,7 @@
     SQUASHFS_IMAGE: "{{ CD_ROOT }}/live/filesystem.squashfs"
 
     ROOT_FSTYPE: ext4
-    ROOT_PARTITION: "{{ volume_drive }}1" # The install partition
+    ROOT_PARTITION: "{{ volume_drive }}p1" # The install partition
 
     WRITE_ROOT: /mnt/wroot
     READ_ROOT: /mnt/squashfs
