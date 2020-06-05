@@ -23,24 +23,15 @@
     INSTALL_ROOT: /mnt/inst_root
 
   tasks:
-    - name: remove sources.list
-      file:
-        path: "/etc/apt/sources.list"
-        state: absent
+    - name: Update packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+      register: apt
 
-    - name: remove sources.list.d
-      file:
-        path: "/etc/apt/sources.list.d"
-        state: absent
-
-    - name: update sources.list
-      copy:
-        src: "{{ playbook_dir }}/files/sources.list"
-        dest: "/etc/apt/sources.list"
-        owner: root
-        group: root
-        mode: 0644
-        force: yes
+    - name: Reboot if packages installed
+      reboot:
+      when: apt.changed
 
     - name: Install required packages
       apt:
@@ -49,6 +40,7 @@
           - parted
           - e2fsprogs
           - gnupg
+          - aufs-dkms
         state: present
 
     - name: Load aufs module
